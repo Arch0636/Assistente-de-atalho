@@ -5,12 +5,19 @@ import shutil
 from ..listas import pastas
 from ..terminal import pausa, clear
 from ..banco import salvar
+from ..validacao import validar, validar_codigo, normalizar_codigo
 
 def cadastrar_pastas():
     clear()
-    nome = input("Nome da pasta: ")
-    codigo = input("Código da pasta: ")
-    endereco = input("Caminho ou link da pasta: ")
+    nome = validar("Nome da pasta: ")
+    codigo = validar_codigo("Código da pasta: ")
+    endereco = validar("Caminho ou link da pasta: ")
+
+    # Validação de código duplicado
+    if codigo in pastas:
+        print(f"Erro: O código '{codigo}' já cadastrado!")
+        pausa()
+        return
 
     pastas[codigo] = {
         "nome": nome,
@@ -63,7 +70,7 @@ def listar_pastas():
     pausa()
 
 def excluir_pasta():
-    codigo = input("Digite o código da pasta que deseja excluir: ")
+    codigo = normalizar_codigo(input("Digite o código da pasta que deseja excluir: "))
     if codigo not in pastas:
         print(f"Nenhuma pasta encontrado com o código '{codigo}'.")
         return
@@ -76,7 +83,7 @@ def limpar():
     """Apaga todo o conteúdo (arquivos e subpastas) de uma pasta cadastrada,
     mantendo a própria pasta. Pede confirmação antes de apagar, já que a
     ação não pode ser desfeita."""
-    codigo = input("Digite o código da pasta que deseja limpar: ")
+    codigo = normalizar_codigo(input("Digite o código da pasta que deseja limpar: "))
     if codigo not in pastas:
         print(f"Nenhuma pasta encontrada com o código '{codigo}'.")
         return
@@ -124,7 +131,7 @@ def limpar():
             print(f"- {erro}")
 
 def editar_pasta():
-    codigo = input("Digite o código da pasta que deseja editar: ")
+    codigo = normalizar_codigo(input("Digite o código da pasta que deseja editar: "))
     if codigo not in pastas:
         print(f"Nenhuma pasta encontrada com o código '{codigo}'.")
         return

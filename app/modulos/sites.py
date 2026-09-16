@@ -4,12 +4,19 @@ from .. import listas
 from ..listas import sites, navegadores_padroes
 from ..terminal import clear, pausa
 from ..banco import salvar
+from ..validacao import validar, validar_codigo, normalizar_codigo
 
 def cadastrar_sites():
     clear()
-    nome = input("Nome do site: ")
-    codigo = input("Código do site: ")
-    endereco = input("link do site: ")
+    nome = validar("Nome do site: ")
+    codigo = validar_codigo("Código do site: ")
+    endereco = validar("link do site: ")
+
+    # Validação de código duplicado
+    if codigo in sites:
+        print(f"Erro: O código '{codigo}' já cadastrado!")
+        pausa()
+        return
 
     sites[codigo] = {
         "nome": nome,
@@ -76,7 +83,7 @@ def listar_sites():
     pausa()
 
 def excluir_site():
-    codigo = input("Digite o código do site que deseja excluir: ")
+    codigo = normalizar_codigo(input("Digite o código do site que deseja excluir: "))
     if codigo not in sites:
         print(f"Nenhum site encontrado com o código '{codigo}'.")
         return
@@ -86,7 +93,7 @@ def excluir_site():
     print("Site excluído com sucesso!")
 
 def editar_site():
-    codigo = input("Digite o código do site que deseja editar: ")
+    codigo = normalizar_codigo(input("Digite o código do site que deseja editar: "))
     if codigo not in sites:
         print(f"Nenhum site encontrado com o código '{codigo}'.")
         return

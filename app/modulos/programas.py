@@ -3,6 +3,7 @@ import subprocess
 from ..listas import programas
 from ..banco import salvar
 from ..terminal import pausa
+from ..validacao import validar, validar_codigo, normalizar_codigo
 
 _COMANDOS_PERIGOSOS = [
     "format ", "mkfs", "dd if=", "dd of=",
@@ -21,14 +22,19 @@ def _eh_comando_perigoso(comando):
     return any(trecho in comando_lower for trecho in _COMANDOS_PERIGOSOS)
 
 def cadastrar_programas():
-    nome = input("Nome do programa/comando: ")
-    codigo = input("Código: ")
-    comando = input(
+    nome = validar("Nome do programa/comando: ")
+    codigo = validar_codigo("Código: ")
+    comando = validar(
         "Comando ou caminho do executável (ex: regedit, calc, notepad, explorer %temp%): "
     )
 
     if _eh_comando_perigoso(comando):
         print("Esse comando parece potencialmente destrutivo e não será cadastrado por segurança.")
+        return
+
+    if codigo in programas:
+        print(f"Erro: O código '{codigo}' já cadastrado!")
+        pausa()
         return
 
     programas[codigo] = {
@@ -71,7 +77,7 @@ def listar_programas():
     pausa()
 
 def editar_programa():
-    codigo = input("Digite o código do programa que deseja editar: ")
+    codigo = normalizar_codigo(input("Digite o código do programa que deseja editar: "))
     if codigo not in programas:
         print(f"Nenhum programa encontrado com o código '{codigo}'.")
         return
@@ -94,7 +100,7 @@ def editar_programa():
     print("Programa atualizado com sucesso!")
 
 def excluir_programa():
-    codigo = input("Digite o código do programa que deseja excluir: ")
+    codigo = normalizar_codigo(input("Digite o código do programa que deseja excluir: "))
     if codigo not in programas:
         print(f"Nenhum programa encontrado com o código '{codigo}'.")
         return

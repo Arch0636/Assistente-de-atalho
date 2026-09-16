@@ -5,11 +5,17 @@ from ..listas import navegadores_padroes
 from .. import listas
 from ..banco import salvar
 from ..terminal import pausa
+from ..validacao import validar, validar_codigo, normalizar_codigo
 
 def cadastrar_navegador_padrao():
-    nome = input("Nome do navegador: ")
-    codigo = input("Código do navegador: ")
-    endereco = input("Caminho ou link do navegador: ")
+    nome = validar("Nome do navegador: ")
+    codigo = validar_codigo("Código do navegador: ")
+    endereco = validar("Caminho ou link do navegador: ")
+
+    if codigo in navegadores_padroes:
+        print(f"Erro: O código '{codigo}' já cadastrado!")
+        pausa()
+        return
 
     navegadores_padroes[codigo] = {
         "nome": nome,
@@ -30,7 +36,7 @@ def definir_navegador_padrao():
         marcador = " (atual)" if codigo == listas.navegador_padrao_selecionado else ""
         print(f"{codigo}: {dados['nome']}{marcador}")
 
-    codigo = input("Digite o código do navegador que deseja definir como padrão: ").strip()
+    codigo = normalizar_codigo(input("Digite o código do navegador que deseja definir como padrão: "))
 
     if codigo not in navegadores_padroes:
         print("Código inválido. Nenhum navegador encontrado com esse código.")

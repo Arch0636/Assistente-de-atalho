@@ -18,6 +18,7 @@ from .modulos.programas import cadastrar_programas, abrir_programa, excluir_prog
 from .terminal import clear, pausa, sair
 from .menu import menu_cadastrar, menu_excluir, menu_editar, menu_listar, menu_navegador
 from .banco import salvar
+from .validacao import normalizar_codigo
 
 
 def cadastrar():
@@ -38,6 +39,7 @@ def cadastrar():
                 print("Opção não existente. Tente novamente.")
 
 def abrir(codigo):
+    codigo = normalizar_codigo(codigo)
     if codigo in sites:
         abrir_site(codigo)
     elif codigo in programas:
@@ -50,7 +52,7 @@ def abrir(codigo):
 def excluir(alvo=None):
     # Se o usuário digitou um alvo (ex: "excluir programa", "excluir site", "excluir pasta")
     if alvo:
-        alvo = alvo.lower().strip()
+        alvo = normalizar_codigo(alvo)
         
         if alvo in ("programa", "programas"):
             excluir_programa()
@@ -112,7 +114,7 @@ def comandos():
 
 def listar(alvo=None):
     if alvo:
-        alvo = alvo.lower().strip()
+        alvo = normalizar_codigo(alvo)
 
         if alvo in ("programa", "programas"):
             listar_programas()
@@ -167,7 +169,7 @@ def navegador():
 def editar(alvo=None):
     # Se o usuário digitou um alvo (ex: "excluir programa", "excluir site", "excluir pasta")
     if alvo:
-        alvo = alvo.lower().strip()
+        alvo = normalizar_codigo(alvo)
         
         if alvo in ("programa", "programas"):
             editar_programa()
