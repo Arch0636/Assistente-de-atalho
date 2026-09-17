@@ -234,7 +234,7 @@ def tela_principal():
             else:
                 print("Uso: abrir {código}")
             pausa()
-        elif comando in ("fechar", "sair"):
+        elif comando in ("fechar", "sair" "encerrar"):
             sair()
         elif comando == "site":
             if argumento:

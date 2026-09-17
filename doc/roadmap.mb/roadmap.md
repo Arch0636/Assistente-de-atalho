@@ -367,9 +367,9 @@ O programa poderá ser considerado pronto para uma primeira
 versão distribuível quando todos os requisitos abaixo forem
 atendidos:
 
-[ ] Cadastros inválidos são rejeitados corretamente.
+[x] Cadastros inválidos são rejeitados corretamente.
 
-[ ] Códigos vazios ou duplicados não são aceitos.
+[x] Códigos vazios ou duplicados não são aceitos.
 
 [ ] Nenhum cadastro existente pode ser sobrescrito
     acidentalmente.
