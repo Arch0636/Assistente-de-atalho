@@ -4,7 +4,9 @@ Estrutura atual do repositório:
 
 ```text
 .
-├── app
+├── src
+|   |── main.py
+|   ├── app
 │   ├── modulos
 │   │   ├── __init__.py
 │   │   ├── navegador_padrao.py
@@ -17,10 +19,10 @@ Estrutura atual do repositório:
 │   ├── listas.py
 │   ├── menu.py
 │   └── terminal.py
-├── doc
+|── data/ #atualmente só salva arquivos de save
+├── doc/
 │   ├── roadmap/
 │   │   └── roadmap.md
 │   └── estrutura.md
 └── main.py
 ```
-
